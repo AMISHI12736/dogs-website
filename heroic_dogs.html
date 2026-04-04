@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🐾 Paws of Courage — Hero Dogs</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800;900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --yellow:#FFD166; --orange:#FF6B35; --red:#EF233C;
+    --blue:#3A86FF; --teal:#06D6A0; --purple:#8338EC;
+    --dark:#1A1A2E; --darker:#0F0F1A; --card:#1E1E35;
+  }
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--darker);color:#fff;font-family:'Nunito',sans-serif;overflow-x:hidden;}
+
+  /* NAV */
+  nav{position:fixed;top:0;width:100%;z-index:1000;background:rgba(10,10,20,.94);backdrop-filter:blur(14px);display:flex;align-items:center;justify-content:space-between;padding:14px 48px;border-bottom:2px solid rgba(255,209,102,.1);}
+  .nav-brand{font-family:'Baloo 2',cursive;font-size:1.55rem;font-weight:900;color:var(--yellow);}
+  .nav-links{display:flex;gap:28px;list-style:none;}
+  .nav-links a{color:rgba(255,255,255,.6);text-decoration:none;font-weight:700;font-size:.92rem;transition:.2s;}
+  .nav-links a:hover{color:var(--yellow);}
+
+  /* HERO */
+  .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:130px 24px 80px;position:relative;overflow:hidden;background:radial-gradient(ellipse 80% 60% at 50% 30%,#261550 0%,var(--darker) 70%);}
+  .star{position:absolute;border-radius:50%;background:#fff;animation:twinkle 3s ease-in-out infinite;}
+  @keyframes twinkle{0%,100%{opacity:.1;transform:scale(1);}50%{opacity:.6;transform:scale(1.5);}}
+  .floaty{position:absolute;font-size:3rem;opacity:.07;animation:floatUp 9s ease-in-out infinite;pointer-events:none;}
+  .floaty:nth-child(1){top:8%;left:4%;animation-delay:0s;}
+  .floaty:nth-child(2){top:22%;right:6%;font-size:2rem;animation-delay:3s;}
+  .floaty:nth-child(3){bottom:18%;left:10%;font-size:4rem;animation-delay:6s;}
+  .floaty:nth-child(4){bottom:10%;right:5%;font-size:2.5rem;animation-delay:1.5s;}
+  @keyframes floatUp{0%,100%{transform:translateY(0) rotate(-8deg);}50%{transform:translateY(-22px) rotate(8deg);}}
+  .hero-badge{display:inline-block;background:linear-gradient(135deg,var(--orange),var(--red));color:#fff;font-size:.78rem;font-weight:900;padding:7px 20px;border-radius:50px;letter-spacing:3px;text-transform:uppercase;margin-bottom:24px;animation:pulse 2.2s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.06);}}
+  .hero h1{font-family:'Baloo 2',cursive;font-size:clamp(3.2rem,9vw,7rem);font-weight:900;line-height:1.0;background:linear-gradient(135deg,#FFD166 0%,#FF6B35 45%,#FF9F43 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:22px;animation:slideIn .8s ease both;}
+  @keyframes slideIn{from{opacity:0;transform:translateY(-28px);}to{opacity:1;transform:translateY(0);}}
+  .hero-sub{font-size:clamp(.98rem,2.2vw,1.3rem);color:rgba(200,210,230,.75);max-width:660px;line-height:1.75;animation:slideIn .9s .25s ease both;}
+  .hero-cta{display:inline-block;margin-top:38px;background:linear-gradient(135deg,var(--yellow),var(--orange));color:var(--darker);font-weight:900;font-size:1.08rem;padding:16px 44px;border-radius:50px;text-decoration:none;transition:.3s;box-shadow:0 10px 35px rgba(255,107,53,.4);animation:slideIn .9s .4s ease both;}
+  .hero-cta:hover{transform:translateY(-4px);box-shadow:0 18px 45px rgba(255,107,53,.6);}
+  .scroll-down{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.3);font-size:.8rem;display:flex;flex-direction:column;align-items:center;gap:5px;animation:bob 2s ease-in-out infinite;}
+  @keyframes bob{0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(9px);}}
+
+  /* SHARED */
+  .container{max-width:1120px;margin:0 auto;}
+  section{padding:90px 24px;}
+  .sec-label{font-size:.75rem;font-weight:900;letter-spacing:3.5px;text-transform:uppercase;color:var(--teal);margin-bottom:10px;}
+  .sec-title{font-family:'Baloo 2',cursive;font-size:clamp(1.9rem,4.5vw,2.9rem);font-weight:900;line-height:1.2;margin-bottom:14px;}
+  .sec-title span{color:var(--yellow);}
+  .sec-sub{color:rgba(180,195,215,.7);max-width:600px;line-height:1.75;font-size:1.02rem;margin-bottom:52px;}
+
+  /* DOG CARDS */
+  .s-heroes{background:var(--dark);}
+  .dogs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:36px;}
+  .dog-card{background:var(--card);border:1px solid rgba(255,209,102,.14);border-radius:26px;overflow:hidden;transition:.35s cubic-bezier(.34,1.56,.64,1);position:relative;}
+  .dog-card:hover{transform:translateY(-12px) scale(1.015);border-color:var(--yellow);box-shadow:0 24px 64px rgba(255,209,102,.14);}
+  .dog-img{width:100%;height:250px;object-fit:cover;object-position:center top;display:block;}
+  .dog-badge{position:absolute;top:16px;right:16px;background:var(--yellow);color:var(--darker);font-size:.68rem;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;padding:5px 13px;border-radius:50px;}
+  .dog-body{padding:26px 26px 28px;}
+  .dog-body h3{font-family:'Baloo 2',cursive;font-size:1.65rem;font-weight:900;color:var(--yellow);margin-bottom:4px;}
+  .dog-breed{font-size:.75rem;color:var(--teal);font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px;}
+  .dog-body > p{color:rgba(180,195,215,.8);line-height:1.72;font-size:.95rem;}
+  .fact-box{margin-top:14px;padding:14px 16px;background:rgba(255,209,102,.06);border-left:4px solid var(--yellow);border-radius:0 12px 12px 0;}
+  .fact-box.teal{border-left-color:var(--teal);background:rgba(6,214,160,.06);}
+  .fact-box.blue{border-left-color:var(--blue);background:rgba(58,134,255,.06);}
+  .fact-box.purple{border-left-color:var(--purple);background:rgba(131,56,236,.06);}
+  .fact-label{font-size:.72rem;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;color:var(--yellow);margin-bottom:5px;display:block;}
+  .fact-box.teal .fact-label{color:var(--teal);}
+  .fact-box.blue .fact-label{color:var(--blue);}
+  .fact-box.purple .fact-label{color:#c084fc;}
+  .fact-box p{color:rgba(200,215,235,.8);font-size:.9rem;line-height:1.64;}
+
+  /* VIDEO */
+  .s-video{background:linear-gradient(135deg,#0d152e 0%,#0a2040 100%);border-top:1px solid rgba(58,134,255,.12);border-bottom:1px solid rgba(58,134,255,.12);}
+  .video-grid{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center;}
+  .video-frame{border-radius:22px;overflow:hidden;box-shadow:0 24px 64px rgba(58,134,255,.22);border:2px solid rgba(58,134,255,.25);}
+  .video-frame video{width:100%;display:block;}
+  .v-points{list-style:none;display:flex;flex-direction:column;gap:14px;margin-top:22px;}
+  .v-points li{display:flex;gap:14px;align-items:flex-start;color:rgba(200,215,235,.8);font-size:.97rem;line-height:1.6;}
+  .v-points li .vi{font-size:1.35rem;flex-shrink:0;}
+
+  /* HOW DOGS HELP */
+  .s-help{background:var(--darker);}
+  .help-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:26px;}
+  .help-card{background:var(--card);border:1px solid rgba(6,214,160,.12);border-radius:22px;padding:30px 22px;text-align:center;transition:.3s;}
+  .help-card:hover{transform:translateY(-8px);border-color:var(--teal);box-shadow:0 18px 45px rgba(6,214,160,.1);}
+  .help-card .hic{font-size:2.8rem;margin-bottom:16px;display:block;}
+  .help-card h4{font-family:'Baloo 2',cursive;font-size:1.18rem;font-weight:800;color:var(--teal);margin-bottom:10px;}
+  .help-card p{color:rgba(165,178,200,.75);font-size:.9rem;line-height:1.65;}
+
+  /* MENTAL HEALTH */
+  .s-mental{background:linear-gradient(135deg,#0d1e2e,#0f2a1e,#1a2040);}
+  .mental-grid{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center;}
+  .stats-4{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+  .stat-box{background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:26px;text-align:center;}
+  .stat-num{font-family:'Baloo 2',cursive;font-size:2.6rem;font-weight:900;color:var(--yellow);}
+  .stat-lbl{color:rgba(160,175,200,.7);font-size:.82rem;margin-top:5px;line-height:1.4;}
+  .benefit-list{list-style:none;display:flex;flex-direction:column;gap:14px;margin-top:22px;}
+  .benefit-list li{display:flex;gap:12px;align-items:flex-start;color:rgba(200,215,235,.82);font-size:.97rem;line-height:1.65;}
+  .benefit-list li::before{content:'✦';color:var(--teal);flex-shrink:0;font-size:.95rem;margin-top:3px;}
+
+  /* THERAPY */
+  .s-therapy{background:var(--dark);}
+  .therapy-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:28px;}
+  .therapy-card{background:var(--card);border:1px solid rgba(131,56,236,.18);border-radius:22px;padding:30px 24px;position:relative;overflow:hidden;transition:.3s;}
+  .therapy-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--purple),var(--blue));}
+  .therapy-card:hover{transform:translateY(-8px);border-color:var(--purple);box-shadow:0 18px 45px rgba(131,56,236,.14);}
+  .therapy-card .tic{font-size:2.6rem;display:block;margin-bottom:14px;}
+  .therapy-card h4{font-family:'Baloo 2',cursive;font-size:1.22rem;font-weight:800;color:#c084fc;margin-bottom:10px;}
+  .therapy-card p{color:rgba(165,178,200,.75);font-size:.92rem;line-height:1.65;}
+
+  /* QUOTE */
+  .quote-band{background:linear-gradient(135deg,var(--orange),var(--red));padding:64px 24px;text-align:center;}
+  .quote-band blockquote{font-family:'Baloo 2',cursive;font-size:clamp(1.5rem,4vw,2.5rem);font-weight:900;max-width:820px;margin:0 auto;line-height:1.35;color:#fff;}
+  .quote-band cite{display:block;margin-top:14px;font-style:normal;font-size:1rem;opacity:.7;}
+
+  /* QUIZ */
+  .s-quiz{background:var(--dark);}
+  .quiz-wrap{max-width:800px;margin:0 auto;background:var(--card);border:1px solid rgba(255,209,102,.18);border-radius:28px;padding:46px 44px;}
+  .quiz-head{text-align:center;margin-bottom:36px;}
+  .quiz-head h2{font-family:'Baloo 2',cursive;font-size:2.3rem;font-weight:900;color:var(--yellow);}
+  .quiz-head p{color:rgba(165,178,200,.75);margin-top:8px;}
+  .prog-track{background:rgba(255,255,255,.08);border-radius:50px;height:8px;margin-bottom:34px;}
+  .prog-fill{height:100%;border-radius:50px;background:linear-gradient(90deg,var(--teal),var(--blue));transition:width .55s ease;}
+  .q-num{font-size:.74rem;font-weight:900;color:var(--teal);letter-spacing:2.5px;text-transform:uppercase;margin-bottom:10px;}
+  .q-text{font-size:1.15rem;font-weight:700;color:rgba(230,238,250,.95);margin-bottom:26px;line-height:1.55;}
+  .opts{display:flex;flex-direction:column;gap:13px;}
+  .opt{background:rgba(255,255,255,.045);border:2px solid rgba(255,255,255,.1);color:rgba(200,215,235,.85);font-family:'Nunito',sans-serif;font-size:1rem;font-weight:700;padding:14px 20px;border-radius:16px;cursor:pointer;text-align:left;transition:.22s;}
+  .opt:hover:not(:disabled){background:rgba(255,209,102,.1);border-color:var(--yellow);color:var(--yellow);}
+  .opt.correct{background:rgba(6,214,160,.14);border-color:var(--teal);color:var(--teal);}
+  .opt.wrong{background:rgba(239,35,60,.14);border-color:var(--red);color:#ff7080;}
+  .opt:disabled{cursor:default;}
+  .fb{margin-top:18px;padding:15px 18px;border-radius:13px;font-size:.94rem;font-weight:700;display:none;line-height:1.55;}
+  .fb.show{display:block;}
+  .fb.ok{background:rgba(6,214,160,.1);color:var(--teal);border:1px solid rgba(6,214,160,.28);}
+  .fb.bad{background:rgba(239,35,60,.1);color:#ff7080;border:1px solid rgba(239,35,60,.28);}
+  .q-nav{display:flex;justify-content:space-between;align-items:center;margin-top:28px;}
+  .score-pill{background:rgba(255,209,102,.1);color:var(--yellow);font-weight:900;padding:7px 20px;border-radius:50px;font-size:.9rem;}
+  .next-btn{background:linear-gradient(135deg,var(--yellow),var(--orange));color:var(--darker);font-family:'Nunito',sans-serif;font-size:1rem;font-weight:900;padding:12px 30px;border-radius:50px;border:none;cursor:pointer;display:none;transition:.3s;}
+  .next-btn:hover{transform:scale(1.06);}
+  .next-btn.show{display:block;}
+  .result{display:none;text-align:center;}
+  .result.show{display:block;}
+  .res-em{font-size:5.5rem;display:block;margin-bottom:16px;}
+  .res-title{font-family:'Baloo 2',cursive;font-size:2.6rem;font-weight:900;color:var(--yellow);margin-bottom:10px;}
+  .res-score{font-family:'Baloo 2',cursive;font-size:3.8rem;font-weight:900;color:var(--teal);margin:10px 0;}
+  .res-sub{color:rgba(165,178,200,.75);font-size:1.04rem;margin-bottom:28px;max-width:520px;margin-left:auto;margin-right:auto;line-height:1.65;}
+  .retry{background:linear-gradient(135deg,var(--purple),var(--blue));color:#fff;font-family:'Nunito',sans-serif;font-size:1rem;font-weight:900;padding:15px 38px;border-radius:50px;border:none;cursor:pointer;transition:.3s;}
+  .retry:hover{transform:scale(1.06);box-shadow:0 12px 32px rgba(131,56,236,.4);}
+
+  /* FOOTER */
+  footer{background:var(--darker);border-top:1px solid rgba(255,255,255,.05);padding:44px 24px;text-align:center;color:rgba(100,115,140,.7);}
+  footer .fl{font-family:'Baloo 2',cursive;font-size:1.7rem;color:var(--yellow);margin-bottom:8px;}
+  footer p{font-size:.9rem;line-height:1.7;}
+
+  /* RESPONSIVE */
+  @media(max-width:820px){
+    nav{padding:12px 22px;} .nav-links{gap:16px;}
+    .video-grid,.mental-grid{grid-template-columns:1fr;gap:40px;}
+    .quiz-wrap{padding:28px 22px;}
+  }
+  @media(max-width:520px){
+    .stats-4{grid-template-columns:1fr 1fr;}
+    .hero h1{font-size:clamp(2.8rem,13vw,5rem);}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">🐾 HeroDogs</div>
+  <ul class="nav-links">
+    <li><a href="#heroes">Heroes</a></li>
+    <li><a href="#video">Video</a></li>
+    <li><a href="#helps">How They Help</a></li>
+    <li><a href="#mental">Healing</a></li>
+    <li><a href="#therapy">Therapy</a></li>
+    <li><a href="#quiz">Quiz</a></li>
+  </ul>
+</nav>
+
+<div class="hero">
+  <div class="star" style="width:2px;height:2px;top:12%;left:18%;animation-delay:.5s;"></div>
+  <div class="star" style="width:3px;height:3px;top:25%;left:72%;animation-delay:1.2s;"></div>
+  <div class="star" style="width:2px;height:2px;top:55%;left:30%;animation-delay:2s;"></div>
+  <div class="star" style="width:4px;height:4px;top:70%;left:80%;animation-delay:.8s;"></div>
+  <div class="floaty">🐾</div>
+  <div class="floaty">🐕</div>
+  <div class="floaty">🦴</div>
+  <div class="floaty">🐾</div>
+  <div class="hero-badge">🏅 True Stories of Canine Courage</div>
+  <h1>Paws of<br>Courage</h1>
+  <p class="hero-sub">Meet the extraordinary dogs who risked their lives, defied the odds, and proved that bravery has no size limit. These are real stories of real heroes — and they all have four paws. 🐶</p>
+  <a href="#heroes" class="hero-cta">Meet the Heroes ↓</a>
+  <div class="scroll-down"><span>Scroll Down</span><span style="font-size:1.3rem">↓</span></div>
+</div>
+
+<!-- HEROES -->
+<section id="heroes" class="s-heroes">
+  <div class="container">
+    <p class="sec-label">🌟 Real Heroes, Real Courage</p>
+    <h2 class="sec-title">Dogs Who <span>Changed History</span></h2>
+    <p class="sec-sub">These aren't movie dogs or made-up tales. Every single story below really happened. Grab your snacks — these four-legged legends will blow your mind! 🐾</p>
+    <div class="dogs-grid">
+
+      <div class="dog-card">
+        <img class="dog-img" src="todd.jpeg" alt="Todd the hero dog">
+        <span class="dog-badge">🐍 Snake Hero</span>
+        <div class="dog-body">
+          <h3>Todd the Hero</h3>
+          <div class="dog-breed">Golden Retriever Mix · Arizona, USA</div>
+          <p>While hiking with his owner <strong style="color:#e8eef8">Paula Godwin</strong> in the Arizona wilderness, Todd spotted a terrifying danger she couldn't see — a coiled rattlesnake, perfectly camouflaged on the trail, right where Paula was about to step. Without a second's hesitation, Todd leapt in front of her and took the venomous strike directly to his face.</p>
+          <div class="fact-box">
+            <span class="fact-label">⚡ The Heroic Act</span>
+            <p>Todd threw himself between Paula and the hidden rattlesnake, absorbing the deadly bite to his own face so his owner wouldn't be harmed.</p>
+          </div>
+          <div class="fact-box teal">
+            <span class="fact-label">💪 Lightning Recovery</span>
+            <p>Todd's face swelled dramatically from the venom. He was rushed to hospital, given antivenom, and made a <strong style="color:#e8eef8">complete recovery in just 12 hours!</strong> Back to tail-wagging! 🐾</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="dog-card">
+        <img class="dog-img" src="salty_lab.jpeg" alt="Salty and Roselle guide dogs">
+        <span class="dog-badge">🏙️ 9/11 Heroes</span>
+        <div class="dog-body">
+          <h3>Salty &amp; Roselle</h3>
+          <div class="dog-breed">Yellow Labrador Retrievers · New York, USA</div>
+          <p>On <strong style="color:#e8eef8">September 11, 2001</strong>, when the World Trade Center was attacked, smoke filled stairwells, alarms blared, and thousands panicked. But two guide dogs — Salty and Roselle — stayed completely calm and led their blind owners safely down dozens of floors through the chaos and darkness.</p>
+          <div class="fact-box">
+            <span class="fact-label">⚡ The Heroic Act</span>
+            <p>Through smoke and total pandemonium, Salty and Roselle guided their visually impaired owners all the way down the WTC stairwells to safety — saving their lives.</p>
+          </div>
+          <div class="fact-box blue">
+            <span class="fact-label">🏅 Did You Know?</span>
+            <p>Many think they were Golden Retrievers — but both Salty and Roselle were <strong style="color:#e8eef8">Yellow Labrador Retrievers.</strong> They were awarded the prestigious <strong style="color:#e8eef8">PDSA Dickin Medal</strong> — the animal world's highest military honour!</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="dog-card">
+        <img class="dog-img" src="vesper.jpg" alt="Vesper the Belgian dog">
+        <span class="dog-badge">🫶 Therapy Hero</span>
+        <div class="dog-body">
+          <h3>Vesper</h3>
+          <div class="dog-breed">Belgian Shepherd · Belgium</div>
+          <p>Vesper was bred and trained from puppyhood to become a fearsome <strong style="color:#e8eef8">police dog</strong>. She aced every physical test — powerful, intelligent, athletic. She had everything a police force could want, except one tiny detail that ended her law-enforcement career before it even began.</p>
+          <div class="fact-box">
+            <span class="fact-label">⚡ The Unexpected Twist</span>
+            <p>Vesper was rejected from the police force for being <strong style="color:#e8eef8">"too friendly."</strong> Instead of apprehending suspects, she sprinted toward them for cuddles and kisses! 😂</p>
+          </div>
+          <div class="fact-box purple">
+            <span class="fact-label">💜 Her True Superpower</span>
+            <p>Vesper became a celebrated <strong style="color:#e8eef8">therapy dog</strong> — bringing healing and love to hospitals, schools, and trauma centres. Sometimes the best weapon is a wagging tail. 🐾</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- VIDEO -->
+<section id="video" class="s-video">
+  <div class="container">
+    <div class="video-grid">
+      <div class="video-frame">
+        <video controls>
+          <source src="LOOSE.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+      <div>
+        <p class="sec-label">🎬 Watch This</p>
+        <h2 class="sec-title">Love in <span>Every Step</span></h2>
+        <p style="color:rgba(180,195,215,.75);line-height:1.78;margin-bottom:22px;">You don't need a cape to be a superhero. Watch how a loyal dog stays close to an elderly lady — guiding her, protecting her, and showing what genuine unconditional love looks like in every single moment.</p>
+        <ul class="v-points">
+          <li><span class="vi">🐕</span> Dogs instinctively sense when someone needs care and protection</li>
+          <li><span class="vi">👵</span> Seniors who live with dogs are healthier, happier, and live longer</li>
+          <li><span class="vi">❤️</span> A dog's loyalty has no limits — they give you absolutely everything</li>
+          <li><span class="vi">🌟</span> Real heroism is simply love that shows up every single day</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW DOGS HELP -->
+<section id="helps" class="s-help">
+  <div class="container">
+    <p class="sec-label">🐕 Incredible Abilities</p>
+    <h2 class="sec-title">How Dogs <span>Save &amp; Help</span> Humans</h2>
+    <p class="sec-sub">Dogs aren't just amazing companions — they're life-savers, protectors, and healers working silently every day to keep humans safe.</p>
+    <div class="help-grid">
+      <div class="help-card"><span class="hic">🔍</span><h4>Search &amp; Rescue</h4><p>Dogs detect human scent through 30 feet of snow or rubble. After earthquakes and avalanches, trained rescue dogs have saved thousands of trapped survivors worldwide.</p></div>
+      <div class="help-card"><span class="hic">💉</span><h4>Medical Detection</h4><p>Dogs can smell cancer cells, detect low blood sugar in diabetics, and even predict epileptic seizures minutes before they happen — giving people time to find safety.</p></div>
+      <div class="help-card"><span class="hic">🦮</span><h4>Guide Dogs</h4><p>Guide dogs give blind people independence and freedom to navigate the world safely — just like Salty and Roselle proved on 9/11, the most dramatic moment in guide dog history.</p></div>
+      <div class="help-card"><span class="hic">💣</span><h4>Bomb Detection</h4><p>Military dogs detect explosives and drugs that advanced machines miss. They've saved thousands of soldiers and civilians from hidden, deadly threats around the world.</p></div>
+      <div class="help-card"><span class="hic">🤗</span><h4>Emotional Healing</h4><p>Petting a dog for just 15 minutes releases oxytocin — the "love hormone" — measurably reducing anxiety, stress, and loneliness. Dogs make us biologically happier!</p></div>
+      <div class="help-card"><span class="hic">🌊</span><h4>Water Rescue</h4><p>In Italy, specially trained Newfoundland dogs patrol beaches as official lifeguards and have rescued hundreds of drowning swimmers. Real-life canine lifeguards! 🏊</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- MENTAL HEALTH -->
+<section id="mental" class="s-mental">
+  <div class="container">
+    <div class="mental-grid">
+      <div>
+        <p class="sec-label">🧠 The Science of Healing</p>
+        <h2 class="sec-title">Dogs Can Literally <span>Heal Your Mind</span></h2>
+        <p style="color:rgba(180,195,215,.75);line-height:1.78;margin-bottom:20px;">Scientists have proven what dog lovers always knew: dogs have a genuinely magical effect on human mental health. They lower cortisol (the stress hormone), reduce blood pressure, fight loneliness, and give people purpose. For kids with anxiety, or adults facing depression, a dog can be the most powerful medicine of all.</p>
+        <ul class="benefit-list">
+          <li>Dogs measurably reduce anxiety and depression in both children and adults</li>
+          <li>PTSD patients with therapy dogs report fewer nightmares and emotional flashbacks</li>
+          <li>Children who read to dogs show dramatically improved confidence and literacy</li>
+          <li>Dog owners have a 24% lower risk of dying from cardiovascular disease</li>
+          <li>Even watching dog videos online reduces cortisol levels in your body!</li>
+          <li>Autistic children with therapy dogs show improved communication and social skills</li>
+        </ul>
+      </div>
+      <div class="stats-4">
+        <div class="stat-box"><div class="stat-num">74%</div><div class="stat-lbl">of pet owners report mental health improvements</div></div>
+        <div class="stat-box"><div class="stat-num">15min</div><div class="stat-lbl">of petting a dog measurably lowers blood pressure</div></div>
+        <div class="stat-box"><div class="stat-num">30%</div><div class="stat-lbl">reduction in anxiety reported by therapy dog patients</div></div>
+        <div class="stat-box"><div class="stat-num">500k+</div><div class="stat-lbl">therapy dogs actively working worldwide right now</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THERAPY & YOGA -->
+<section id="therapy" class="s-therapy">
+  <div class="container">
+    <p class="sec-label">🧘 Wellness With Dogs</p>
+    <h2 class="sec-title">Dog Therapy &amp; <span>Yoga Centres</span></h2>
+    <p class="sec-sub">Around the world, programmes harness the healing power of dogs for mental, physical, and emotional wellbeing. Here's what's happening globally:</p>
+    <div class="therapy-grid">
+      <div class="therapy-card"><span class="tic">🧘</span><h4>Doga (Dog Yoga)</h4><p>Yes, Doga is completely real! You do gentle yoga poses alongside and WITH your dog. Studios in New York, London, and Mumbai run Doga sessions. It measurably lowers anxiety for both owner and dog — and it's incredibly fun! 🐕</p></div>
+      <div class="therapy-card"><span class="tic">🏥</span><h4>Hospital Therapy Visits</h4><p>Certified therapy dogs like Vesper visit hospitals, cancer wards, and children's units. Patients who receive dog visits heal faster, need less pain medication, and experience far less fear during treatment.</p></div>
+      <div class="therapy-card"><span class="tic">🏫</span><h4>School Reading Dogs</h4><p>Children who struggle with reading sit with a therapy dog and read aloud. Dogs never judge or laugh — they just listen. This programme has improved reading skills and confidence in thousands of children worldwide.</p></div>
+      <div class="therapy-card"><span class="tic">🧠</span><h4>PTSD &amp; Trauma Centres</h4><p>Veterans and trauma survivors work with trained service dogs to learn to trust again and feel safe. The USA's K9s for Warriors programme has helped over 700 veterans with PTSD using rescued dogs.</p></div>
+      <div class="therapy-card"><span class="tic">🐕‍🦺</span><h4>Autism Support Dogs</h4><p>Service dogs paired with autistic children reduce meltdowns, build communication, and help navigate social situations. Many parents say their child spoke their very first words to their therapy dog.</p></div>
+      <div class="therapy-card"><span class="tic">🌿</span><h4>Canine Therapy Centres</h4><p>Dedicated therapy centres from India to Canada use structured dog interactions to treat depression, OCD, and social anxiety. Programmes like "Paws for People" have touched millions of lives globally.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<div class="quote-band">
+  <blockquote>
+    "Dogs do not make us human. They remind us that we already are."
+    <cite>— A truth every dog already knows in their heart 🐾</cite>
+  </blockquote>
+</div>
+
+<!-- QUIZ -->
+<section id="quiz" class="s-quiz">
+  <div class="container">
+    <div class="quiz-wrap">
+      <div class="quiz-head">
+        <h2>🐾 The Hero Dogs Quiz!</h2>
+        <p>You've read the stories — now prove you know them! 8 questions, one mission: become the Ultimate Dog Hero Expert. Can you ace it? 🏆</p>
+      </div>
+      <div class="prog-track"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+      <div id="quizBody">
+        <div class="q-num" id="qNum">Question 1 of 8</div>
+        <div class="q-text" id="qText"></div>
+        <div class="opts" id="opts"></div>
+        <div class="fb" id="fb"></div>
+        <div class="q-nav">
+          <span class="score-pill">Score: <span id="scoreLive">0</span></span>
+          <button class="next-btn" id="nextBtn" onclick="nextQ()">Next Question →</button>
+        </div>
+      </div>
+      <div class="result" id="resultBox">
+        <span class="res-em" id="resEm">🏆</span>
+        <div class="res-title" id="resTitle"></div>
+        <div class="res-score" id="resScore"></div>
+        <p class="res-sub" id="resSub"></p>
+        <button class="retry" onclick="resetQ()">🔄 Try Again!</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="fl">🐾 HeroDogs</div>
+  <p>Crafted with love for every kid and teenager who believes in the magic of dogs.<br>Every dog is a hero. Go give one a hug today. 🐕❤️</p>
+</footer>
+
+<script>
+const Qs=[
+  {q:"While hiking in Arizona, what dangerous animal was Todd's owner Paula about to step on?",opts:["A cobra","A Gila monster","A rattlesnake","A copperhead"],ans:2,fact:"Todd spotted a perfectly camouflaged rattlesnake right in Paula's path and leapt in front of her instantly, with zero hesitation!"},
+  {q:"How long did Todd take to fully recover from the venomous snakebite?",opts:["3 days","1 week","12 hours","48 hours"],ans:2,fact:"After antivenom treatment at an animal hospital, Todd made a full and complete recovery in just 12 hours. What an absolute trooper! 💪"},
+  {q:"Where exactly on Todd's body did the rattlesnake bite him?",opts:["His front paw","His back leg","His face","His chest"],ans:2,fact:"Todd took the venomous bite directly to his face, causing severe swelling — but he recovered fully within 12 hours because of his incredible bravery!"},
+  {q:"What breed were Salty and Roselle — the famous September 11 guide dogs?",opts:["Golden Retrievers","German Shepherds","Yellow Labrador Retrievers","Border Collies"],ans:2,fact:"Many assume they were Golden Retrievers because of their yellow coats, but both Salty and Roselle were actually Yellow Labrador Retrievers!"},
+  {q:"What did Salty and Roselle do during the 9/11 attacks on the World Trade Center?",opts:["They sniffed out hidden explosives in the building","They calmly guided their blind owners safely down the WTC stairs through smoke and chaos","They ran to alert firefighters about trapped survivors","They carried emergency medical supplies"],ans:1,fact:"Through thick smoke and total chaos, Salty and Roselle stayed completely calm and guided their blind owners floor by floor all the way to safety outside. True legends! 🏙️"},
+  {q:"Why was Vesper rejected from the police force she was trained to join?",opts:["She was too small and lightweight","She failed the obstacle course agility tests","She was too friendly — she ran toward criminals for cuddles instead of catching them","She was afraid of loud gunshot sounds"],ans:2,fact:"Vesper was literally 'too friendly' for police work! She kept dashing toward suspects wanting hugs and cuddles. She found her true calling as a beloved therapy dog! 😂"},
+  {q:"What is 'Doga' — the real wellness programme that involves dogs?",opts:["A special high-protein diet food for working dogs","A form of yoga practised together with your dog","A type of advanced military dog training","A competitive dog swimming programme"],ans:1,fact:"Doga is 100% real! You do calming yoga poses alongside and with your dog. Studios in Mumbai, London, and New York all offer Doga classes. 🧘🐕"},
+  {q:"How many minutes of petting a dog can measurably lower your blood pressure?",opts:["5 minutes","1 hour","15 minutes","45 minutes"],ans:2,fact:"Just 15 minutes of petting a dog triggers release of oxytocin — the 'love hormone' — which measurably reduces stress, anxiety, and blood pressure. Science proves it! 🐾❤️"}
+];
+
+let cur=0,score=0,answered=false;
+
+function loadQ(){
+  const q=Qs[cur];
+  document.getElementById('qNum').textContent=`Question ${cur+1} of ${Qs.length}`;
+  document.getElementById('qText').textContent=q.q;
+  document.getElementById('progFill').style.width=`${(cur/Qs.length)*100}%`;
+  const c=document.getElementById('opts');
+  c.innerHTML='';
+  q.opts.forEach((o,i)=>{
+    const b=document.createElement('button');
+    b.className='opt'; b.textContent=`${['A','B','C','D'][i]}. ${o}`;
+    b.onclick=()=>pick(i,b);
+    c.appendChild(b);
+  });
+  const fb=document.getElementById('fb');
+  fb.className='fb'; fb.textContent='';
+  document.getElementById('nextBtn').className='next-btn';
+  answered=false;
+}
+
+function pick(i,btn){
+  if(answered)return;
+  answered=true;
+  const q=Qs[cur];
+  document.querySelectorAll('.opt').forEach(b=>b.disabled=true);
+  const fb=document.getElementById('fb');
+  if(i===q.ans){
+    btn.classList.add('correct'); score++;
+    document.getElementById('scoreLive').textContent=score;
+    fb.className='fb ok show'; fb.textContent=`✅ Correct! ${q.fact}`;
+  } else {
+    btn.classList.add('wrong');
+    document.querySelectorAll('.opt')[q.ans].classList.add('correct');
+    fb.className='fb bad show'; fb.textContent=`❌ Not quite! ${q.fact}`;
+  }
+  document.getElementById('nextBtn').className='next-btn show';
+}
+
+function nextQ(){
+  cur++;
+  if(cur>=Qs.length) showResult(); else loadQ();
+}
+
+function showResult(){
+  document.getElementById('quizBody').style.display='none';
+  document.getElementById('progFill').style.width='100%';
+  const r=document.getElementById('resultBox');
+  r.className='result show';
+  const pct=score/Qs.length;
+  let em,title,sub;
+  if(pct===1){em='🏆';title='PERFECT SCORE!';sub="You are an absolute legend! You absorbed every detail of every hero dog story. Todd, Salty, Roselle, and Vesper would all be incredibly proud of you! 🐾";}
+  else if(pct>=.75){em='🌟';title='Brilliant Job!';sub="You clearly know your hero dogs really well! Just a small review and you'll nail 100% on your next try. Almost there! 🐕";}
+  else if(pct>=.5){em='🐶';title='Good Effort!';sub="You're well on your way to becoming a dog hero expert! Head back up and re-read the amazing stories, then come back and crush it! 🐾";}
+  else{em='📚';title='Keep Going!';sub="Every expert started somewhere! Read the incredible stories above again carefully and retry — you absolutely have this! 💪";}
+  document.getElementById('resEm').textContent=em;
+  document.getElementById('resTitle').textContent=title;
+  document.getElementById('resScore').textContent=`${score} / ${Qs.length}`;
+  document.getElementById('resSub').textContent=sub;
+}
+
+function resetQ(){
+  cur=0; score=0; answered=false;
+  document.getElementById('scoreLive').textContent='0';
+  document.getElementById('quizBody').style.display='block';
+  document.getElementById('resultBox').className='result';
+  loadQ();
+}
+
+loadQ();
+</script>
+</body>
+</html>
